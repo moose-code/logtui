@@ -159,6 +159,7 @@ Run `logtui --list-networks` to see the complete, up-to-date list of all support
 ## Built-in Event Presets
 
 - `uniswap-v3`: Core Uniswap V3 events (PoolCreated, Swap, Mint, Burn, Initialize)
+- `uniswap-v4`: Uniswap V4 PoolManager events (Swap, ModifyLiquidity, Initialize, Donate, and more)
 - `erc20`: Standard ERC-20 token events (Transfer, Approval)
 - `erc721`: Standard ERC-721 NFT events (Transfer, Approval, ApprovalForAll)
 
