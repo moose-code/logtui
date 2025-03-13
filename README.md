@@ -2,7 +2,7 @@
 
 A terminal-based UI for monitoring blockchain events using Hypersync.
 
-![LogTUI Screenshot](https://via.placeholder.com/800x450?text=LogTUI+Screenshot)
+![LogTUI gif](./hypersync.gif)
 
 ## Features
 
