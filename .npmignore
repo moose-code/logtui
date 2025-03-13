@@ -23,3 +23,10 @@ coverage/
 
 # Documentation drafts or internal notes
 docs-internal/ 
+
+# Exclude large media files (keep in Git but not in npm)
+*.gif
+*.png
+*.jpg
+*.jpeg
+hypersync.gif 
