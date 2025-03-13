@@ -20,7 +20,7 @@
     "dashboard",
     "uniswap"
   ],
-  "author": "",
+  "author": "moose-code envio.dev",
   "license": "MIT",
   "dependencies": {
     "@envio-dev/hypersync-client": "^0.6.3",
@@ -32,5 +32,13 @@
     "node-fetch": "^3.3.2",
     "viem": "^2.9.6"
   },
-  "type": "module"
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moose-code/logtui"
+  },
+  "homepage": "https://envio.dev",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

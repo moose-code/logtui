@@ -1,0 +1,25 @@
+# Development files
+.git
+.github
+.gitignore
+node_modules
+
+# Test files
+test/
+tests/
+__tests__/
+
+# Miscellaneous
+.DS_Store
+.env
+.env.*
+*.log
+.npmrc
+.vscode/
+.idea/
+
+# Build files
+coverage/
+
+# Documentation drafts or internal notes
+docs-internal/ 
