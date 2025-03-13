@@ -60,7 +60,7 @@ logtui --list-networks
 logtui --refresh-networks
 
 # Custom events
-logtui -e "Transfer(address,address,uint256)" "Approval(address,address,uint256)" -n ethereum
+logtui -e "Transfer(address,address,uint256)" "Approval(address,address,uint256)" -n eth
 
 # List available presets and networks
 logtui --list-presets
@@ -84,7 +84,7 @@ Usage: logtui [options] [preset] [network]
 
 Arguments:
   preset                  Event preset to use (e.g., uniswap-v3, erc20, erc721) (default: "uniswap-v3")
-  network                 Network to connect to (e.g., ethereum, arbitrum, optimism) (default: "ethereum")
+  network                 Network to connect to (e.g., eth, arbitrum, optimism) (default: "eth")
 
 Options:
   -V, --version           output the version number
@@ -141,7 +141,7 @@ LogTUI automatically discovers all networks supported by Hypersync. The followin
 
 ### Mainnets
 
-- `ethereum`: Ethereum Mainnet
+- `eth`: Ethereum Mainnet
 - `arbitrum`: Arbitrum One
 - `optimism`: Optimism
 - `base`: Base
@@ -180,7 +180,3 @@ node bin/logtui.js
 
 - Built with [Hypersync](https://docs.envio.dev/docs/HyperIndex/overview) by Envio
 - Terminal UI powered by [blessed](https://github.com/chjj/blessed)
-
-## License
-
-MIT

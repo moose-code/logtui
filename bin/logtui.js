@@ -57,8 +57,8 @@ program
   )
   .argument(
     "[network]",
-    "Network to connect to (e.g., ethereum, arbitrum, optimism)",
-    "ethereum"
+    "Network to connect to (e.g., eth, arbitrum, optimism)",
+    "eth"
   )
   .option("-e, --events <events...>", "Custom event signatures to monitor")
   .option("-n, --network <network>", "Network to connect to")
@@ -189,7 +189,7 @@ program
         );
         console.log(
           `${chalk.yellow(
-            'logtui -e "Transfer(address,address,uint256)" -n ethereum'
+            'logtui -e "Transfer(address,address,uint256)" -n eth'
           )} - Scan for custom events`
         );
         console.log();
@@ -197,7 +197,7 @@ program
       }
 
       // Determine the network to use
-      const network = options.network || networkArg || "ethereum";
+      const network = options.network || networkArg || "eth";
       let networkUrl;
 
       try {
