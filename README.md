@@ -8,7 +8,8 @@ A terminal-based UI for monitoring blockchain events using Hypersync.
 
 - Real-time monitoring of blockchain events with a beautiful terminal UI
 - Supports **all Hypersync-enabled networks** (Ethereum, Arbitrum, Optimism, etc.)
-- Built-in presets for common contract standards (Uniswap V3, ERC-20, ERC-721)
+- **Extensive preset collection** covering DeFi, Oracles, NFTs, L2s, and more
+- Built-in presets for 20+ protocols (Uniswap, Chainlink, Aave, ENS, etc.)
 - Custom event signature support
 - Event distribution visualization
 - Progress tracking and statistics
@@ -44,14 +45,26 @@ pnpm add logtui
 # Default: Monitor Uniswap V3 events on Ethereum
 logtui
 
-# Monitor Uniswap V3 events on Arbitrum
-logtui uniswap-v3 arbitrum
+# Track Uniswap V4 events
+logtui uniswap-v4
 
-# Monitor ERC-20 events on Optimism
-logtui erc20 optimism
+# Monitor Chainlink price feed updates
+logtui chainlink-price-feeds
+
+# Track AAVE lending events on Arbitrum
+logtui aave arbitrum
+
+# Watch LayerZero cross-chain messages on Optimism
+logtui layerzero optimism
+
+# Monitor ENS registry events
+logtui ens
 
 # Monitor on a testnet
-logtui uniswap-v3 optimism-sepolia
+logtui chainlink-vrf arbitrum-sepolia
+
+# List all available presets
+logtui --list-presets
 
 # List all available networks
 logtui --list-networks
@@ -61,9 +74,6 @@ logtui --refresh-networks
 
 # Custom events
 logtui -e "Transfer(address,address,uint256)" "Approval(address,address,uint256)" -n eth
-
-# List available presets and networks
-logtui --list-presets
 ```
 
 ### Network Discovery
@@ -158,10 +168,42 @@ Run `logtui --list-networks` to see the complete, up-to-date list of all support
 
 ## Built-in Event Presets
 
+### Core Presets
+
 - `uniswap-v3`: Core Uniswap V3 events (PoolCreated, Swap, Mint, Burn, Initialize)
 - `uniswap-v4`: Uniswap V4 PoolManager events (Swap, ModifyLiquidity, Initialize, Donate, and more)
 - `erc20`: Standard ERC-20 token events (Transfer, Approval)
 - `erc721`: Standard ERC-721 NFT events (Transfer, Approval, ApprovalForAll)
+
+### Oracles
+
+- `chainlink-price-feeds`: Chainlink price oracle events (AnswerUpdated, NewRound)
+- `chainlink-vrf`: Chainlink Verifiable Random Function events
+- `pyth`: Pyth Network oracle events
+- `uma`: UMA Oracle events (PriceProposed, PriceDisputed, PriceSettled)
+
+### DeFi Protocols
+
+- `aave`: Aave V3 lending protocol events (Supply, Withdraw, Borrow, Repay)
+- `curve`: Curve Finance pool events (TokenExchange, AddLiquidity)
+- `weth`: Wrapped Ether events (Deposit, Withdrawal, Transfer)
+- `usdc`: USD Coin stablecoin events
+
+### Cross-chain & L2
+
+- `layerzero`: LayerZero cross-chain messaging events
+- `arbitrum`: Arbitrum sequencer and bridge events
+
+### Gaming & NFTs
+
+- `blur`: Blur NFT marketplace events
+- `axie`: Axie Infinity game events
+- `ens`: Ethereum Name Service registry events
+
+### Emerging Tech
+
+- `erc4337`: Account Abstraction (ERC-4337) events
+- `universalRouter`: Uniswap's intent-based Universal Router events
 
 ## Development
 
