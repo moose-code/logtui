@@ -178,7 +178,7 @@ node bin/logtui.js
 
 ## Acknowledgements
 
-- Built with [Hypersync](https://www.envio.dev/hypersync) by Envio
+- Built with [Hypersync](https://docs.envio.dev/docs/HyperIndex/overview) by Envio
 - Terminal UI powered by [blessed](https://github.com/chjj/blessed)
 
 ## License
