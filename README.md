@@ -40,11 +40,12 @@ A terminal-based UI for monitoring blockchain events using Hypersync.
 ## Features
 
 - Real-time monitoring of blockchain events with a beautiful terminal UI
-- Supports multiple networks (Ethereum, Arbitrum, Optimism, etc.)
+- Supports **all Hypersync-enabled networks** (Ethereum, Arbitrum, Optimism, etc.)
 - Built-in presets for common contract standards (Uniswap V3, ERC-20, ERC-721)
 - Custom event signature support
 - Event distribution visualization
 - Progress tracking and statistics
+- Automatic network discovery from Hypersync API with persistent caching
 
 ## Installation
 
@@ -82,12 +83,32 @@ logtui uniswap-v3 arbitrum
 # Monitor ERC-20 events on Optimism
 logtui erc20 optimism
 
+# Monitor on a testnet
+logtui uniswap-v3 optimism-sepolia
+
+# List all available networks
+logtui --list-networks
+
+# Force refresh the network list from Hypersync API (updates cache)
+logtui --refresh-networks
+
 # Custom events
 logtui -e "Transfer(address,address,uint256)" "Approval(address,address,uint256)" -n ethereum
 
 # List available presets and networks
 logtui --list-presets
 ```
+
+### Network Discovery
+
+LogTUI automatically discovers and caches all networks supported by Hypersync:
+
+1. On first run, it loads the default networks
+2. It then attempts to fetch all available networks from the Hypersync API
+3. Networks are cached locally for future use, even when offline
+4. Use `--refresh-networks` to force update the cached network list
+
+This ensures you always have access to all supported networks, even when working offline.
 
 ### CLI Options
 
@@ -104,6 +125,8 @@ Options:
   -n, --network <network> Network to connect to
   -t, --title <title>     Custom title for the scanner (default: "Blockchain Event Scanner")
   -l, --list-presets      List available event presets and exit
+  -N, --list-networks     List all available networks and exit
+  --refresh-networks      Force refresh network list from API
   -v, --verbose           Show additional info in the console
   -h, --help              display help for command
 ```
@@ -113,7 +136,16 @@ Options:
 You can also use LogTUI as a library in your Node.js applications:
 
 ```javascript
-import { createScanner, getNetworkUrl, getEventSignatures } from "logtui";
+import {
+  createScanner,
+  getNetworkUrl,
+  getEventSignatures,
+  fetchNetworks,
+} from "logtui";
+
+// Refresh the network list (optional, will use cache by default)
+// Pass true to force refresh from API: fetchNetworks(true)
+await fetchNetworks();
 
 // Option 1: Using direct parameters
 createScanner({
@@ -138,11 +170,24 @@ createScanner({
 
 ## Supported Networks
 
+LogTUI automatically discovers all networks supported by Hypersync. The following are some commonly used networks:
+
+### Mainnets
+
 - `ethereum`: Ethereum Mainnet
 - `arbitrum`: Arbitrum One
 - `optimism`: Optimism
 - `base`: Base
 - `polygon`: Polygon PoS
+- And many more...
+
+### Testnets
+
+- `arbitrum-sepolia`: Arbitrum Sepolia
+- `optimism-sepolia`: Optimism Sepolia
+- And more...
+
+Run `logtui --list-networks` to see the complete, up-to-date list of all supported networks.
 
 ## Built-in Event Presets
 

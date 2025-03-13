@@ -5,6 +5,27 @@
  *
  * A terminal-based UI for monitoring blockchain events using Hypersync
  */
+
+// Force terminal compatibility mode
+process.env.FORCE_COLOR = "1";
+process.env.NCURSES_NO_UTF8_ACS = "1";
+
+// Handle terminal capability errors before imports
+const originalError = console.error;
+console.error = function (msg) {
+  // Ignore specific terminal capability errors
+  if (
+    typeof msg === "string" &&
+    (msg.includes("Error on xterm") || msg.includes("Setulc"))
+  ) {
+    return;
+  }
+  originalError.apply(console, arguments);
+};
+
+// Disable debug logging
+console.debug = () => {};
+
 import { Command } from "commander";
 import chalk from "chalk";
 import { createScanner } from "../lib/scanner.js";
@@ -13,6 +34,8 @@ import {
   getEventSignatures,
   hasPreset,
   NETWORKS,
+  DEFAULT_NETWORKS,
+  fetchNetworks,
   listPresets,
 } from "../lib/config.js";
 
@@ -45,9 +68,82 @@ program
     "Blockchain Event Scanner"
   )
   .option("-l, --list-presets", "List available event presets and exit")
+  .option("-N, --list-networks", "List all available networks and exit")
   .option("-v, --verbose", "Show additional info in the console")
+  .option("--refresh-networks", "Force refresh network list from API")
   .action(async (presetArg, networkArg, options) => {
     try {
+      // Always fetch networks at startup to ensure we have the latest
+      // This uses the cache by default unless --refresh-networks is specified
+      if (options.refreshNetworks) {
+        console.log(chalk.blue("Refreshing networks from API..."));
+        await fetchNetworks(true);
+        console.log(chalk.green("Networks refreshed successfully!"));
+      } else {
+        // Silently ensure networks are loaded (uses cache if available)
+        await fetchNetworks();
+      }
+
+      // If the user requested to list networks, show them and exit
+      if (options.listNetworks) {
+        console.log(chalk.bold.blue("\nAvailable Networks:"));
+        console.log(chalk.blue("──────────────────────────────────────────"));
+
+        // Separate into categories for better display
+        const mainnetNetworks = [];
+        const testnetNetworks = [];
+        const otherNetworks = [];
+
+        Object.entries(NETWORKS).forEach(([name, url]) => {
+          // Categorize networks by name patterns
+          if (
+            name.includes("sepolia") ||
+            name.includes("goerli") ||
+            name.includes("testnet") ||
+            name.includes("test")
+          ) {
+            testnetNetworks.push({ name, url });
+          } else if (Object.keys(DEFAULT_NETWORKS).includes(name)) {
+            mainnetNetworks.push({ name, url });
+          } else {
+            otherNetworks.push({ name, url });
+          }
+        });
+
+        console.log(chalk.yellow("\nPopular Mainnets:"));
+        mainnetNetworks.forEach(({ name, url }) => {
+          console.log(`${chalk.green(name)}: ${url}`);
+        });
+
+        console.log(chalk.yellow("\nTestnets:"));
+        testnetNetworks.forEach(({ name, url }) => {
+          console.log(`${chalk.green(name)}: ${url}`);
+        });
+
+        console.log(chalk.yellow("\nOther Networks:"));
+        otherNetworks.forEach(({ name, url }) => {
+          console.log(`${chalk.green(name)}: ${url}`);
+        });
+
+        console.log(
+          chalk.yellow(
+            `\nTotal ${Object.keys(NETWORKS).length} networks available`
+          )
+        );
+
+        console.log(chalk.blue("\nUsage Examples:"));
+        console.log(
+          `${chalk.yellow("logtui uniswap-v3 arbitrum")} - Use Arbitrum network`
+        );
+        console.log(
+          `${chalk.yellow(
+            "logtui -n optimism-sepolia"
+          )} - Use Optimism Sepolia testnet`
+        );
+        console.log();
+        process.exit(0);
+      }
+
       // If the user requested to list presets, show them and exit
       if (options.listPresets) {
         console.log(chalk.bold.blue("\nAvailable Event Presets:"));
@@ -63,9 +159,18 @@ program
 
         console.log(chalk.blue("\nAvailable Networks:"));
         console.log(chalk.blue("──────────────────────────────────────────"));
-        Object.keys(NETWORKS).forEach((network) => {
-          console.log(`${chalk.green(network)}: ${NETWORKS[network]}`);
+        // Show just the default networks for simplicity
+        Object.keys(DEFAULT_NETWORKS).forEach((network) => {
+          console.log(`${chalk.green(network)}: ${DEFAULT_NETWORKS[network]}`);
         });
+        console.log(
+          chalk.yellow(
+            `(${
+              Object.keys(NETWORKS).length -
+              Object.keys(DEFAULT_NETWORKS).length
+            } more networks available. Run with --list-networks to see all)`
+          )
+        );
 
         console.log(chalk.blue("\nUsage Examples:"));
         console.log(chalk.blue("──────────────────────────────────────────"));
@@ -99,6 +204,11 @@ program
         networkUrl = getNetworkUrl(network);
       } catch (err) {
         console.error(chalk.red(`Error: ${err.message}`));
+        console.log(
+          chalk.yellow(
+            "Run 'logtui --list-networks' to see all available networks."
+          )
+        );
         process.exit(1);
       }
 
@@ -156,9 +266,23 @@ program
       });
     } catch (err) {
       console.error(chalk.red(`Error: ${err.message}`));
+      if (err.stack) {
+        console.error(chalk.red(err.stack));
+      }
       process.exit(1);
     }
   });
 
-// Parse command line arguments
-program.parse(process.argv);
+// Execute the CLI
+async function main() {
+  try {
+    // Ensure networks are loaded before parsing arguments
+    await fetchNetworks();
+    program.parse(process.argv);
+  } catch (err) {
+    console.error(chalk.red(`Fatal error: ${err.message}`));
+    process.exit(1);
+  }
+}
+
+main();
