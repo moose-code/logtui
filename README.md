@@ -9,11 +9,11 @@ A terminal-based UI for monitoring blockchain events using Hypersync.
 Try it with a single command:
 
 ```bash
-# Monitor Uniswap events on Ethereum
-pnpx logtui uniswap ethereum
+# Scan Uniswapv4 events on Unichain (using pnpx)
+pnpx logtui uniswap-v4 unichain
 
-# Monitor Aave events on Arbitrum
-pnpx logtui aave arbitrum
+# Monitor Aave events on Arbitrum (using npx)
+npx logtui aave arbitrum
 
 # See all available options
 pnpx logtui --help
