@@ -4,6 +4,21 @@ A terminal-based UI for monitoring blockchain events using Hypersync.
 
 ![LogTUI gif](./hypersync.gif)
 
+## Quickstart
+
+Try it with a single command:
+
+```bash
+# Monitor Uniswap events on Ethereum
+pnpx logtui uniswap ethereum
+
+# Monitor Aave events on Arbitrum
+pnpx logtui aave arbitrum
+
+# See all available options
+pnpx logtui --help
+```
+
 ## Features
 
 - Real-time monitoring of blockchain events with a beautiful terminal UI
