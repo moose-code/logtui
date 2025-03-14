@@ -7,7 +7,7 @@
  */
 
 // Force terminal compatibility mode
-process.env.FORCE_COLOR = "1";
+process.env.FORCE_COLOR = "3";
 process.env.NCURSES_NO_UTF8_ACS = "1";
 
 // Handle terminal capability errors before imports
