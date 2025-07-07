@@ -1,6 +1,6 @@
 {
   "name": "logtui",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A terminal-based UI for monitoring blockchain events using Hypersync",
   "main": "lib/index.js",
   "bin": {
