@@ -63,6 +63,9 @@ logtui
 # Track Uniswap V4 events
 logtui uniswap-v4
 
+# Monitor GMX v1 perps events on Arbitrum
+logtui gmx-v1-perps arbitrum
+
 # Monitor Chainlink price feed updates
 logtui chainlink-price-feeds
 
@@ -101,6 +104,8 @@ LogTUI automatically discovers and caches all networks supported by Hypersync:
 4. Use `--refresh-networks` to force update the cached network list
 
 This ensures you always have access to all supported networks, even when working offline.
+
+LogTUI uses secure `https://*.hypersync.xyz` endpoints for network connections.
 
 ### CLI Options
 
@@ -141,7 +146,7 @@ await fetchNetworks();
 
 // Option 1: Using direct parameters
 createScanner({
-  networkUrl: "http://eth.hypersync.xyz",
+  networkUrl: "https://eth.hypersync.xyz",
   eventSignatures: [
     "Transfer(address,address,uint256)",
     "Approval(address,address,uint256)",
@@ -203,6 +208,7 @@ Run `logtui --list-networks` to see the complete, up-to-date list of all support
 - `curve`: Curve Finance pool events (TokenExchange, AddLiquidity)
 - `weth`: Wrapped Ether events (Deposit, Withdrawal, Transfer)
 - `usdc`: USD Coin stablecoin events
+- `gmx-v1-perps`: GMX v1 perps order lifecycle, position updates, and liquidations
 
 ### Cross-chain & L2
 
@@ -214,6 +220,8 @@ Run `logtui --list-networks` to see the complete, up-to-date list of all support
 - `blur`: Blur NFT marketplace events
 - `axie`: Axie Infinity game events
 - `ens`: Ethereum Name Service registry events
+
+
 
 ### Emerging Tech
 
