@@ -19,6 +19,15 @@ npx logtui aave arbitrum
 pnpx logtui --help
 ```
 
+
+## API Token
+
+HyperSync requires an API token ([docs](https://docs.envio.dev/docs/HyperSync/api-tokens)):
+
+```bash
+export ENVIO_API_TOKEN="your-token-here"
+```
+
 ## Features
 
 - Real-time monitoring of blockchain events with a beautiful terminal UI
@@ -141,7 +150,7 @@ await fetchNetworks();
 
 // Option 1: Using direct parameters
 createScanner({
-  networkUrl: "http://eth.hypersync.xyz",
+  networkUrl: "https://eth.hypersync.xyz",
   eventSignatures: [
     "Transfer(address,address,uint256)",
     "Approval(address,address,uint256)",
